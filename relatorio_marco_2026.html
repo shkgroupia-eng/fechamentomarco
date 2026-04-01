@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Relatório de Performance — Março/2026 | YES COMERCIO & ORKAN</title>
+<style>
+  :root {
+    --dark: #0A0E1A;
+    --navy: #0D1B4B;
+    --blue: #1A56DB;
+    --lblue: #3B82F6;
+    --cyan: #06B6D4;
+    --orange: #F97316;
+    --amber: #F59E0B;
+    --green: #10B981;
+    --red: #EF4444;
+    --purple: #8B5CF6;
+    --lgrey: #F1F5F9;
+    --mgrey: #CBD5E1;
+    --dgrey: #64748B;
+    --yes-sp: #F97316;
+    --orkan-sp: #F59E0B;
+    --yes-ml: #1A56DB;
+    --orkan-ml: #06B6D4;
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #F8FAFC; color: var(--dark); }
+
+  /* NAV */
+  nav { background: var(--dark); padding: 0 2rem; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 20px rgba(0,0,0,.4); }
+  nav .brand { display: flex; align-items: center; gap: .6rem; padding: .9rem 0; }
+  nav .brand-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--blue); }
+  nav .brand span { color: #fff; font-size: .85rem; font-weight: 700; letter-spacing: .05em; }
+  nav .nav-links { display: flex; gap: 1.5rem; }
+  nav .nav-links a { color: var(--mgrey); font-size: .78rem; text-decoration: none; transition: color .2s; }
+  nav .nav-links a:hover { color: var(--cyan); }
+  nav .badge-date { background: var(--blue); color: #fff; font-size: .72rem; font-weight: 700; padding: .25rem .7rem; border-radius: 20px; }
+
+  /* HERO */
+  .hero { background: linear-gradient(135deg, var(--dark) 0%, #0D1B4B 60%, #0A2A4A 100%); padding: 5rem 2rem 4rem; text-align: center; position: relative; overflow: hidden; }
+  .hero::before { content: ''; position: absolute; top: -120px; right: -120px; width: 500px; height: 500px; border-radius: 50%; background: radial-gradient(circle, rgba(26,86,219,.18) 0%, transparent 70%); }
+  .hero::after  { content: ''; position: absolute; bottom: -80px; left: -80px; width: 350px; height: 350px; border-radius: 50%; background: radial-gradient(circle, rgba(6,182,212,.12) 0%, transparent 70%); }
+  .hero-tag { display: inline-block; background: rgba(26,86,219,.25); border: 1px solid rgba(26,86,219,.5); color: var(--cyan); font-size: .72rem; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: .35rem 1rem; border-radius: 20px; margin-bottom: 1.2rem; }
+  .hero h1 { color: #fff; font-size: clamp(2rem,5vw,3.4rem); font-weight: 800; line-height: 1.15; margin-bottom: .6rem; }
+  .hero h1 span { color: var(--orange); }
+  .hero p { color: var(--mgrey); font-size: .95rem; margin-bottom: 2.5rem; }
+  .hero-stats { display: flex; justify-content: center; gap: 1.2rem; flex-wrap: wrap; position: relative; z-index: 1; }
+  .hero-stat { background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.12); backdrop-filter: blur(8px); border-radius: 12px; padding: 1.2rem 1.8rem; text-align: center; min-width: 130px; }
+  .hero-stat .val { color: var(--lblue); font-size: 1.5rem; font-weight: 800; display: block; }
+  .hero-stat .lbl { color: var(--dgrey); font-size: .72rem; margin-top: .2rem; }
+  .platform-tags { display: flex; justify-content: center; gap: .8rem; margin-top: 2rem; position: relative; z-index: 1; }
+  .ptag { padding: .4rem 1.2rem; border-radius: 20px; font-size: .75rem; font-weight: 700; color: #fff; }
+  .ptag.shopee { background: #FF5722; }
+  .ptag.ml     { background: var(--blue); }
+
+  /* MAIN */
+  main { max-width: 1100px; margin: 0 auto; padding: 2.5rem 1.5rem 4rem; }
+
+  /* SECTION HEADER */
+  .sec-hdr { display: flex; align-items: center; gap: 1rem; margin: 2.5rem 0 1.2rem; }
+  .sec-hdr .num { width: 38px; height: 38px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: .9rem; color: #fff; flex-shrink: 0; }
+  .sec-hdr .info h2 { font-size: 1.2rem; font-weight: 800; }
+  .sec-hdr .info p  { font-size: .78rem; color: var(--dgrey); margin-top: .1rem; }
+
+  /* KPI GRID */
+  .kpi-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: .9rem; margin-bottom: 1.5rem; }
+  .kpi-card { background: #fff; border-radius: 12px; padding: 1.1rem 1rem 1rem 1.2rem; border-left: 4px solid; box-shadow: 0 2px 12px rgba(0,0,0,.07); position: relative; overflow: hidden; transition: transform .2s, box-shadow .2s; }
+  .kpi-card:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(0,0,0,.12); }
+  .kpi-card::after { content: ''; position: absolute; top: -20px; right: -20px; width: 70px; height: 70px; border-radius: 50%; opacity: .06; }
+  .kpi-card .val  { font-size: 1.4rem; font-weight: 800; }
+  .kpi-card .lbl  { font-size: .72rem; color: var(--dgrey); margin-top: .15rem; }
+  .kpi-card .sub  { font-size: .68rem; color: var(--green); font-weight: 600; margin-top: .2rem; }
+
+  /* CHART BARS */
+  .chart-row { display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; margin-bottom: 1.5rem; }
+  @media(max-width:700px){ .chart-row { grid-template-columns:1fr; } }
+  .chart-box { background: #fff; border-radius: 14px; padding: 1.4rem; box-shadow: 0 2px 12px rgba(0,0,0,.07); }
+  .chart-box h3 { font-size: .82rem; font-weight: 700; color: var(--dgrey); margin-bottom: 1.1rem; text-transform: uppercase; letter-spacing: .05em; }
+  .bar-item { margin-bottom: .75rem; }
+  .bar-item .bar-header { display: flex; justify-content: space-between; font-size: .78rem; margin-bottom: .3rem; }
+  .bar-item .bar-header .name { font-weight: 600; }
+  .bar-item .bar-header .value { font-weight: 800; }
+  .bar-track { background: var(--lgrey); border-radius: 20px; height: 10px; overflow: hidden; }
+  .bar-fill  { height: 100%; border-radius: 20px; transition: width 1s ease; }
+
+  /* TABLE */
+  .tbl-wrap { overflow-x: auto; margin-bottom: 1.5rem; }
+  table { width: 100%; border-collapse: collapse; background: #fff; border-radius: 14px; overflow: hidden; box-shadow: 0 2px 12px rgba(0,0,0,.07); font-size: .82rem; }
+  thead tr { background: var(--dark); color: #fff; }
+  thead th { padding: .85rem 1rem; text-align: left; font-weight: 700; font-size: .78rem; letter-spacing: .04em; }
+  tbody tr:nth-child(even) { background: var(--lgrey); }
+  tbody tr:hover { background: #EFF6FF; }
+  tbody td { padding: .75rem 1rem; border-bottom: 1px solid #F1F5F9; vertical-align: middle; }
+  .badge { display: inline-block; padding: .2rem .55rem; border-radius: 20px; font-size: .7rem; font-weight: 700; }
+  .badge.ok   { background: #DCFCE7; color: #166534; }
+  .badge.bad  { background: #FEE2E2; color: #991B1B; }
+  .badge.mid  { background: #FEF9C3; color: #854D0E; }
+
+  /* RANK CARDS */
+  .rank-list { display: flex; flex-direction: column; gap: .7rem; margin-bottom: 1.5rem; }
+  .rank-card { display: grid; grid-template-columns: 60px 1fr 1fr; gap: 1rem; align-items: center; background: var(--dark); border-radius: 12px; padding: .9rem 1.2rem; }
+  .rank-card .medal { font-size: 1.3rem; text-align: center; }
+  .rank-card .name  { color: #fff; font-weight: 700; font-size: .9rem; }
+  .rank-card .name small { display: block; color: var(--mgrey); font-size: .72rem; font-weight: 400; margin-top: .15rem; }
+  .rank-card .tags  { display: flex; flex-wrap: wrap; gap: .4rem; }
+  .rank-card .tags span { font-size: .68rem; padding: .2rem .55rem; border-radius: 10px; font-weight: 600; }
+  .tag-green { background: rgba(16,185,129,.2); color: #34D399; }
+  .tag-red   { background: rgba(239,68,68,.2);  color: #F87171; }
+
+  /* ALERTS */
+  .alerts { display: flex; flex-direction: column; gap: .6rem; margin-bottom: 1.5rem; }
+  .alert-item { display: flex; align-items: flex-start; gap: .9rem; padding: .9rem 1.1rem; border-radius: 10px; border-left: 4px solid; }
+  .alert-item.high   { background: #FEF2F2; border-color: var(--red); }
+  .alert-item.medium { background: #FFFBEB; border-color: var(--amber); }
+  .alert-item.low    { background: #F0FDF4; border-color: var(--green); }
+  .alert-icon { font-size: 1.1rem; margin-top: .05rem; }
+  .alert-body .title { font-weight: 700; font-size: .83rem; }
+  .alert-body .desc  { font-size: .78rem; color: var(--dgrey); margin-top: .15rem; }
+  .priority-pill { font-size: .65rem; font-weight: 700; padding: .15rem .5rem; border-radius: 20px; margin-left: .5rem; vertical-align: middle; }
+  .high-pill   { background: var(--red);   color: #fff; }
+  .medium-pill { background: var(--amber); color: #fff; }
+  .low-pill    { background: var(--green); color: #fff; }
+
+  /* ACTION TABLE */
+  .action-section { margin-bottom: 1.5rem; }
+  .action-header  { display: flex; align-items: center; gap: .7rem; padding: .6rem 1rem; border-radius: 10px 10px 0 0; }
+  .action-header .dot { width: 12px; height: 12px; border-radius: 50%; background: rgba(255,255,255,.5); }
+  .action-header span { color: #fff; font-weight: 700; font-size: .85rem; }
+
+  /* METAS */
+  .metas-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-bottom: 1.5rem; }
+  .meta-card { background: #fff; border-radius: 14px; padding: 1.2rem; box-shadow: 0 2px 12px rgba(0,0,0,.07); border-top: 4px solid; }
+  .meta-card .store  { font-size: .75rem; font-weight: 700; color: var(--dgrey); text-transform: uppercase; letter-spacing: .05em; }
+  .meta-card .atual  { font-size: .82rem; color: var(--dgrey); margin: .4rem 0 .2rem; }
+  .meta-card .real   { font-size: 1.3rem; font-weight: 800; }
+  .meta-card .desaf  { font-size: .82rem; color: var(--dgrey); }
+  .meta-card .growth { display: inline-block; background: #DCFCE7; color: #166534; font-size: .7rem; font-weight: 700; padding: .2rem .6rem; border-radius: 20px; margin-top: .5rem; }
+  .meta-card .lever  { font-size: .73rem; color: var(--blue); margin-top: .5rem; }
+
+  /* PRIORITIES */
+  .priorities { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1rem; }
+  .priority-card { background: var(--dark); border-radius: 14px; padding: 1.3rem; position: relative; overflow: hidden; }
+  .priority-card::before { content: attr(data-num); position: absolute; top: -10px; right: 10px; font-size: 5rem; font-weight: 900; color: rgba(255,255,255,.04); line-height: 1; }
+  .priority-card .p-num  { color: var(--cyan); font-size: .75rem; font-weight: 700; text-transform: uppercase; letter-spacing: .1em; }
+  .priority-card .p-title{ color: #fff; font-size: .95rem; font-weight: 700; margin: .3rem 0 .4rem; }
+  .priority-card .p-desc { color: var(--dgrey); font-size: .78rem; line-height: 1.5; }
+  .priority-card .p-dead { display: inline-block; background: rgba(26,86,219,.25); color: var(--lblue); font-size: .7rem; font-weight: 700; padding: .2rem .6rem; border-radius: 20px; margin-top: .6rem; }
+
+  /* FOOTER */
+  footer { background: var(--dark); color: var(--dgrey); text-align: center; padding: 2rem; font-size: .78rem; }
+  footer strong { color: var(--lblue); }
+
+  /* UTIL */
+  .divider { height: 1px; background: var(--mgrey); margin: .5rem 0 1.5rem; opacity: .4; }
+  @media(max-width:600px){ .rank-card { grid-template-columns: 50px 1fr; } .rank-card .tags { display:none; } }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="brand">
+    <div class="brand-dot"></div>
+    <span>YES COMERCIO &amp; ORKAN</span>
+  </div>
+  <div class="nav-links">
+    <a href="#visao">Visão Geral</a>
+    <a href="#ranking">Ranking</a>
+    <a href="#diagnostico">Diagnóstico</a>
+    <a href="#ads">Ads</a>
+    <a href="#alertas">Alertas</a>
+    <a href="#plano">Plano de Ação</a>
+  </div>
+  <div class="badge-date">Março / 2026</div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-tag">Relatório de Performance</div>
+  <h1>Fechamento <span>Março/2026</span></h1>
+  <p>4 Lojas &nbsp;·&nbsp; Shopee + Mercado Livre &nbsp;·&nbsp; Grupo YES COMERCIO &amp; ORKAN</p>
+  <div class="hero-stats">
+    <div class="hero-stat"><span class="val">R$102.585</span><span class="lbl">GMV Total</span></div>
+    <div class="hero-stat"><span class="val">1.631</span><span class="lbl">Pedidos</span></div>
+    <div class="hero-stat"><span class="val">R$65,75</span><span class="lbl">Ticket Médio</span></div>
+    <div class="hero-stat"><span class="val">58.321</span><span class="lbl">Visitas</span></div>
+    <div class="hero-stat"><span class="val">2,80%</span><span class="lbl">Conversão Média</span></div>
+    <div class="hero-stat"><span class="val">R$13.408</span><span class="lbl">Invest. Ads</span></div>
+  </div>
+  <div class="platform-tags">
+    <span class="ptag shopee">SHOPEE</span>
+    <span class="ptag ml">MERCADO LIVRE</span>
+  </div>
+</section>
+
+<main>
+
+<!-- VISÃO GERAL -->
+<div class="sec-hdr" id="visao">
+  <div class="num" style="background:var(--blue)">02</div>
+  <div class="info"><h2>Visão Geral Consolidada</h2><p>KPIs principais de março/2026</p></div>
+</div>
+<div class="kpi-grid">
+  <div class="kpi-card" style="border-color:var(--blue)"><div class="val" style="color:var(--blue)">R$102.585</div><div class="lbl">Faturamento Bruto Total</div><div class="sub">4 lojas combinadas</div></div>
+  <div class="kpi-card" style="border-color:var(--orange)"><div class="val" style="color:var(--orange)">1.631</div><div class="lbl">Total de Pedidos</div><div class="sub">Todas as lojas</div></div>
+  <div class="kpi-card" style="border-color:var(--green)"><div class="val" style="color:var(--green)">R$65,75</div><div class="lbl">Ticket Médio Geral</div><div class="sub">Média ponderada</div></div>
+  <div class="kpi-card" style="border-color:var(--cyan)"><div class="val" style="color:var(--cyan)">58.321</div><div class="lbl">Visitas Totais</div><div class="sub">Tráfego combinado</div></div>
+  <div class="kpi-card" style="border-color:var(--purple)"><div class="val" style="color:var(--purple)">2,80%</div><div class="lbl">Conversão Média</div><div class="sub">Meta: acima de 3%</div></div>
+  <div class="kpi-card" style="border-color:var(--red)"><div class="val" style="color:var(--red)">R$13.408</div><div class="lbl">Investimento em Ads</div><div class="sub">13,1% do GMV</div></div>
+</div>
+
+<div class="chart-row">
+  <div class="chart-box">
+    <h3>Faturamento por Loja</h3>
+    <div class="bar-item">
+      <div class="bar-header"><span class="name">YES SP</span><span class="value" style="color:var(--yes-sp)">R$42.509</span></div>
+      <div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--yes-sp)"></div></div>
+    </div>
+    <div class="bar-item">
+      <div class="bar-header"><span class="name">ORKAN ML</span><span class="value" style="color:var(--orkan-ml)">R$29.645</span></div>
+      <div class="bar-track"><div class="bar-fill" style="width:69.7%;background:var(--orkan-ml)"></div></div>
+    </div>
+    <div class="bar-item">
+      <div class="bar-header"><span class="name">YES ML</span><span class="value" style="color:var(--yes-ml)">R$16.925</span></div>
+      <div class="bar-track"><div class="bar-fill" style="width:39.8%;background:var(--yes-ml)"></div></div>
+    </div>
+    <div class="bar-item">
+      <div class="bar-header"><span class="name">ORKAN SP</span><span class="value" style="color:var(--orkan-sp)">R$13.506</span></div>
+      <div class="bar-track"><div class="bar-fill" style="width:31.8%;background:var(--orkan-sp)"></div></div>
+    </div>
+  </div>
+  <div class="chart-box">
+    <h3>ROAS por Loja</h3>
+    <div class="bar-item">
+      <div class="bar-header"><span class="name">YES SP</span><span class="value" style="color:var(--yes-sp)">6,0x</span></div>
+      <div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--yes-sp)"></div></div>
+    </div>
+    <div class="bar-item">
+      <div class="bar-header"><span class="name">ORKAN SP</span><span class="value" style="color:var(--orkan-sp)">5,0x</span></div>
+      <div class="bar-track"><div class="bar-fill" style="width:83.3%;background:var(--orkan-sp)"></div></div>
+    </div>
+    <div class="bar-item">
+      <div class="bar-header"><span class="name">YES ML</span><span class="value" style="color:var(--yes-ml)">2,94x</span></div>
+      <div class="bar-track"><div class="bar-fill" style="width:49%;background:var(--yes-ml)"></div></div>
+    </div>
+    <div class="bar-item">
+      <div class="bar-header"><span class="name">ORKAN ML</span><span class="value" style="color:var(--orkan-ml)">2,61x</span></div>
+      <div class="bar-track"><div class="bar-fill" style="width:43.5%;background:var(--orkan-ml)"></div></div>
+    </div>
+  </div>
+</div>
+
+<!-- RANKING -->
+<div class="sec-hdr" id="ranking">
+  <div class="num" style="background:var(--purple)">03</div>
+  <div class="info"><h2>Ranking das Lojas</h2><p>Semáforo de performance — Março/2026</p></div>
+</div>
+
+<div class="tbl-wrap">
+<table>
+  <thead><tr>
+    <th>KPI</th><th>YES SP 🟠</th><th>ORKAN SP 🟡</th><th>YES ML 🔵</th><th>ORKAN ML 🔷</th>
+  </tr></thead>
+  <tbody>
+    <tr><td><strong>Faturamento</strong></td><td><span class="badge ok">R$42.509 ✔</span></td><td><span class="badge bad">R$13.506 ✖</span></td><td><span class="badge mid">R$16.925 ~</span></td><td><span class="badge ok">R$29.645 ✔</span></td></tr>
+    <tr><td><strong>Pedidos</strong></td><td><span class="badge ok">702 ✔</span></td><td><span class="badge bad">250 ✖</span></td><td><span class="badge mid">269 ~</span></td><td><span class="badge ok">410 ✔</span></td></tr>
+    <tr><td><strong>Ticket Médio</strong></td><td><span class="badge mid">R$60,55 ~</span></td><td><span class="badge bad">R$54,25 ✖</span></td><td><span class="badge ok">R$70,80 ✔</span></td><td><span class="badge ok">R$77,40 ✔</span></td></tr>
+    <tr><td><strong>Conversão</strong></td><td><span class="badge bad">2,10% ✖</span></td><td><span class="badge ok">3,86% ✔</span></td><td><span class="badge mid">2,70% ~</span></td><td><span class="badge mid">2,90% ~</span></td></tr>
+    <tr><td><strong>ROAS</strong></td><td><span class="badge ok">6,0x ✔</span></td><td><span class="badge ok">5,0x ✔</span></td><td><span class="badge mid">2,94x ~</span></td><td><span class="badge bad">2,61x ✖</span></td></tr>
+    <tr><td><strong>Custo Ads/GMV</strong></td><td><span class="badge ok">1,8% ✔</span></td><td><span class="badge ok">5,7% ✔</span></td><td><span class="badge mid">14,6% ~</span></td><td><span class="badge bad">31,6% ✖</span></td></tr>
+    <tr><td><strong>Taxa Problemas</strong></td><td><span class="badge bad">5,1% ✖</span></td><td><span class="badge ok">2,4% ✔</span></td><td>N/D</td><td>N/D</td></tr>
+    <tr><td><strong>Reputação</strong></td><td><span class="badge mid">4,5★ ~</span></td><td><span class="badge mid">4,5★ ~</span></td><td><span class="badge ok">Líder Verde ✔</span></td><td><span class="badge ok">Líder Verde ✔</span></td></tr>
+  </tbody>
+</table>
+</div>
+
+<div class="rank-list">
+  <div class="rank-card"><div class="medal">🥇</div><div class="name">YES SP — Shopee<small>1º Lugar</small></div><div class="tags"><span class="tag-green">ROAS 6x</span><span class="tag-green">Ads 1,8% GMV</span><span class="tag-red">Conv. 2,10%</span></div></div>
+  <div class="rank-card"><div class="medal">🥈</div><div class="name">ORKAN ML — Mercado Livre<small>2º Lugar</small></div><div class="tags"><span class="tag-green">Ticket R$77</span><span class="tag-green">Líder Verde</span><span class="tag-red">Ads 31,6%</span></div></div>
+  <div class="rank-card"><div class="medal">🥉</div><div class="name">ORKAN SP — Shopee<small>3º Lugar</small></div><div class="tags"><span class="tag-green">Conv. 3,86%</span><span class="tag-green">Op. Limpa 2,4%</span><span class="tag-red">Volume baixo</span></div></div>
+  <div class="rank-card"><div class="medal">4️⃣</div><div class="name">YES ML — Mercado Livre<small>4º Lugar</small></div><div class="tags"><span class="tag-green">Ticket R$70</span><span class="tag-green">Líder Verde</span><span class="tag-red">ROAS 2,94x</span></div></div>
+</div>
+
+<!-- DIAGNÓSTICO -->
+<div class="sec-hdr" id="diagnostico">
+  <div class="num" style="background:var(--orange)">05</div>
+  <div class="info"><h2>Diagnóstico por Loja</h2><p>Pontos fortes, alertas e simulações de oportunidade</p></div>
+</div>
+
+<div class="chart-row" style="grid-template-columns:1fr 1fr">
+  <!-- YES SP -->
+  <div class="chart-box" style="border-top:4px solid var(--yes-sp)">
+    <h3 style="color:var(--yes-sp)">🟠 YES SP — Shopee</h3>
+    <div class="kpi-grid" style="grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:.8rem">
+      <div class="kpi-card" style="border-color:var(--green);padding:.7rem"><div class="val" style="color:var(--green);font-size:1rem">R$42.509</div><div class="lbl">Faturamento</div></div>
+      <div class="kpi-card" style="border-color:var(--red);padding:.7rem"><div class="val" style="color:var(--red);font-size:1rem">2,10%</div><div class="lbl">Conversão ⚠</div></div>
+      <div class="kpi-card" style="border-color:var(--green);padding:.7rem"><div class="val" style="color:var(--green);font-size:1rem">6,0x</div><div class="lbl">ROAS</div></div>
+      <div class="kpi-card" style="border-color:var(--red);padding:.7rem"><div class="val" style="color:var(--red);font-size:1rem">5,1%</div><div class="lbl">Cancelamentos ⚠</div></div>
+    </div>
+    <div style="background:#EFF6FF;border-radius:8px;padding:.75rem;font-size:.78rem;color:var(--blue)">💡 Conv. 2,10%→2,80% = <strong>+R$12.290</strong> sem gastar mais em ads</div>
+  </div>
+  <!-- ORKAN SP -->
+  <div class="chart-box" style="border-top:4px solid var(--orkan-sp)">
+    <h3 style="color:var(--orkan-sp)">🟡 ORKAN SP — Shopee</h3>
+    <div class="kpi-grid" style="grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:.8rem">
+      <div class="kpi-card" style="border-color:var(--green);padding:.7rem"><div class="val" style="color:var(--green);font-size:1rem">3,86%</div><div class="lbl">Conversão ✔</div></div>
+      <div class="kpi-card" style="border-color:var(--green);padding:.7rem"><div class="val" style="color:var(--green);font-size:1rem">2,4%</div><div class="lbl">Cancelamentos ✔</div></div>
+      <div class="kpi-card" style="border-color:var(--green);padding:.7rem"><div class="val" style="color:var(--green);font-size:1rem">5,0x</div><div class="lbl">ROAS</div></div>
+      <div class="kpi-card" style="border-color:var(--amber);padding:.7rem"><div class="val" style="color:var(--amber);font-size:1rem">6.867</div><div class="lbl">Visitas ~</div></div>
+    </div>
+    <div style="background:#FFFBEB;border-radius:8px;padding:.75rem;font-size:.78rem;color:#92400E">💡 Visitas 6.867→12.000 = <strong>+R$10.792</strong> mantendo conversão</div>
+  </div>
+  <!-- YES ML -->
+  <div class="chart-box" style="border-top:4px solid var(--yes-ml)">
+    <h3 style="color:var(--yes-ml)">🔵 YES ML — Mercado Livre</h3>
+    <div class="kpi-grid" style="grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:.8rem">
+      <div class="kpi-card" style="border-color:var(--green);padding:.7rem"><div class="val" style="color:var(--green);font-size:1rem">R$70,80</div><div class="lbl">Ticket Médio ✔</div></div>
+      <div class="kpi-card" style="border-color:var(--green);padding:.7rem"><div class="val" style="color:var(--green);font-size:1rem">Líder 🟢</div><div class="lbl">Reputação ✔</div></div>
+      <div class="kpi-card" style="border-color:var(--amber);padding:.7rem"><div class="val" style="color:var(--amber);font-size:1rem">2,94x</div><div class="lbl">ROAS ~</div></div>
+      <div class="kpi-card" style="border-color:var(--amber);padding:.7rem"><div class="val" style="color:var(--amber);font-size:1rem">14,6%</div><div class="lbl">Custo Ads ~</div></div>
+    </div>
+    <div style="background:#EFF6FF;border-radius:8px;padding:.75rem;font-size:.78rem;color:var(--blue)">💡 Fulfillment → ranking orgânico → <strong>+20% visitas</strong> sem custo extra</div>
+  </div>
+  <!-- ORKAN ML -->
+  <div class="chart-box" style="border-top:4px solid var(--orkan-ml)">
+    <h3 style="color:var(--orkan-ml)">🔷 ORKAN ML — Mercado Livre</h3>
+    <div class="kpi-grid" style="grid-template-columns:1fr 1fr;gap:.6rem;margin-bottom:.8rem">
+      <div class="kpi-card" style="border-color:var(--green);padding:.7rem"><div class="val" style="color:var(--green);font-size:1rem">R$77,40</div><div class="lbl">Ticket Médio ✔</div></div>
+      <div class="kpi-card" style="border-color:var(--red);padding:.7rem"><div class="val" style="color:var(--red);font-size:1rem">31,6%</div><div class="lbl">Custo Ads ✖</div></div>
+      <div class="kpi-card" style="border-color:var(--red);padding:.7rem"><div class="val" style="color:var(--red);font-size:1rem">2,61x</div><div class="lbl">ROAS ✖</div></div>
+      <div class="kpi-card" style="border-color:var(--green);padding:.7rem"><div class="val" style="color:var(--green);font-size:1rem">Líder 🟢</div><div class="lbl">Reputação ✔</div></div>
+    </div>
+    <div style="background:#FEF2F2;border-radius:8px;padding:.75rem;font-size:.78rem;color:#991B1B">🚨 GMV R$29.645 — Taxas 18% — Ads R$9.385 = <strong>~R$14.924 restante</strong> antes do CMV</div>
+  </div>
+</div>
+
+<!-- ADS -->
+<div class="sec-hdr" id="ads">
+  <div class="num" style="background:var(--amber)">10</div>
+  <div class="info"><h2>Análise de Ads</h2><p>ROAS, eficiência e custo por plataforma</p></div>
+</div>
+<div class="tbl-wrap">
+<table>
+  <thead><tr><th>Loja</th><th>Plataforma</th><th>Investimento</th><th>ROAS</th><th>Retorno</th><th>Custo/GMV</th><th>Eficiência</th></tr></thead>
+  <tbody>
+    <tr><td><strong>YES SP</strong></td><td>Shopee Ads</td><td>R$775</td><td><strong>6,0x</strong></td><td>R$4.650</td><td>1,8%</td><td><span class="badge ok">Excelente ✔</span></td></tr>
+    <tr><td><strong>ORKAN SP</strong></td><td>Shopee Ads</td><td>R$774</td><td><strong>5,0x</strong></td><td>R$3.870</td><td>5,7%</td><td><span class="badge ok">Ótimo ✔</span></td></tr>
+    <tr><td><strong>YES ML</strong></td><td>ML Ads</td><td>R$2.474</td><td><strong>2,94x</strong></td><td>R$7.274</td><td>14,6%</td><td><span class="badge mid">Regular ~</span></td></tr>
+    <tr><td><strong>ORKAN ML</strong></td><td>ML Ads</td><td>R$9.385</td><td><strong>2,61x</strong></td><td>R$24.495</td><td>31,6%</td><td><span class="badge bad">Crítico ✖</span></td></tr>
+  </tbody>
+</table>
+</div>
+
+<!-- ALERTAS -->
+<div class="sec-hdr" id="alertas">
+  <div class="num" style="background:var(--red)">11</div>
+  <div class="info"><h2>Pontos Críticos e Alertas</h2><p>Prioridades identificadas para ação imediata</p></div>
+</div>
+<div class="alerts">
+  <div class="alert-item high"><div class="alert-icon">🔴</div><div class="alert-body"><div class="title">ORKAN ML — Custo de Ads = 31,6% do GMV <span class="priority-pill high-pill">IMEDIATO</span></div><div class="desc">Risco real de margem negativa após taxas ML (~18%). Cortar -30% até 03/04.</div></div></div>
+  <div class="alert-item high"><div class="alert-icon">🔴</div><div class="alert-body"><div class="title">YES SP — Conversão 2,10% com 29k visitas <span class="priority-pill high-pill">SEMANA 1</span></div><div class="desc">~870 pedidos perdidos por mês. Otimizar páginas, imagens, SEO e frete dos top produtos.</div></div></div>
+  <div class="alert-item high"><div class="alert-icon">🔴</div><div class="alert-body"><div class="title">YES SP — 5,1% de Cancelamentos <span class="priority-pill high-pill">SEMANA 1</span></div><div class="desc">Acima do ideal. Investigar causa-raiz: produto errado, prazo, ruptura de estoque.</div></div></div>
+  <div class="alert-item medium"><div class="alert-icon">🟡</div><div class="alert-body"><div class="title">YES ML — ROAS 2,94x com taxas ML 18% <span class="priority-pill medium-pill">SEMANA 2</span></div><div class="desc">Margem líquida muito apertada. Pausar grupos com ROAS &lt; 2x antes de escalar.</div></div></div>
+  <div class="alert-item medium"><div class="alert-icon">🟡</div><div class="alert-body"><div class="title">Canibalização — Top 3 iguais YES SP e ORKAN SP <span class="priority-pill medium-pill">SEMANA 2</span></div><div class="desc">Competição interna desnecessária. Definir catálogos distintos com ≥5 SKUs exclusivos por loja.</div></div></div>
+  <div class="alert-item medium"><div class="alert-icon">🟡</div><div class="alert-body"><div class="title">ORKAN SP — Tráfego Baixo com Conversão Alta <span class="priority-pill medium-pill">SEMANA 2</span></div><div class="desc">3,86% de conversão sendo desperdiçada por apenas 6.867 visitas. Escalar Shopee Ads +40%.</div></div></div>
+  <div class="alert-item low"><div class="alert-icon">🟢</div><div class="alert-body"><div class="title">Top produtos ML não mapeados <span class="priority-pill low-pill">ATÉ 05/04</span></div><div class="desc">YES ML e ORKAN ML sem dados de portfólio. Preencher para análise completa em maio.</div></div></div>
+</div>
+
+<!-- METAS -->
+<div class="sec-hdr" id="plano">
+  <div class="num" style="background:var(--green)">13</div>
+  <div class="info"><h2>Metas SMART — Abril/2026</h2><p>Objetivos realistas e desafiadores por loja</p></div>
+</div>
+<div class="metas-grid">
+  <div class="meta-card" style="border-color:var(--yes-sp)">
+    <div class="store" style="color:var(--yes-sp)">🟠 YES SP — Shopee</div>
+    <div class="atual">Março: R$42.509</div>
+    <div class="real" style="color:var(--yes-sp)">R$46.000</div>
+    <div class="desaf">🎯 Desafiadora: R$51.000</div>
+    <span class="growth">+8% a +20%</span>
+    <div class="lever">↑ Conversão 2,10% → 2,80%</div>
+  </div>
+  <div class="meta-card" style="border-color:var(--orkan-sp)">
+    <div class="store" style="color:var(--orkan-sp)">🟡 ORKAN SP — Shopee</div>
+    <div class="atual">Março: R$13.506</div>
+    <div class="real" style="color:var(--orkan-sp)">R$16.000</div>
+    <div class="desaf">🎯 Desafiadora: R$20.000</div>
+    <span class="growth">+18% a +48%</span>
+    <div class="lever">↑ Escalar tráfego Ads +40%</div>
+  </div>
+  <div class="meta-card" style="border-color:var(--yes-ml)">
+    <div class="store" style="color:var(--yes-ml)">🔵 YES ML — Merc. Livre</div>
+    <div class="atual">Março: R$16.925</div>
+    <div class="real" style="color:var(--yes-ml)">R$19.000</div>
+    <div class="desaf">🎯 Desafiadora: R$23.000</div>
+    <span class="growth">+12% a +36%</span>
+    <div class="lever">↑ Fulfillment + ROAS → 3,5x</div>
+  </div>
+  <div class="meta-card" style="border-color:var(--orkan-ml)">
+    <div class="store" style="color:var(--orkan-ml)">🔷 ORKAN ML — Merc. Livre</div>
+    <div class="atual">Março: R$29.645</div>
+    <div class="real" style="color:var(--orkan-ml)">R$32.000</div>
+    <div class="desaf">🎯 Desafiadora: R$36.000</div>
+    <span class="growth">+8% a +21%</span>
+    <div class="lever">↓ Reduzir ads + orgânico</div>
+  </div>
+</div>
+
+<div class="chart-box" style="margin-bottom:1.5rem">
+  <h3>Meta Total do Grupo — Abril/2026</h3>
+  <div class="bar-item">
+    <div class="bar-header"><span class="name">Março/2026 (realizado)</span><span class="value" style="color:var(--dgrey)">R$102.585</span></div>
+    <div class="bar-track"><div class="bar-fill" style="width:78.9%;background:var(--dgrey)"></div></div>
+  </div>
+  <div class="bar-item">
+    <div class="bar-header"><span class="name">Meta Realista Abril</span><span class="value" style="color:var(--blue)">R$113.000</span></div>
+    <div class="bar-track"><div class="bar-fill" style="width:86.9%;background:var(--blue)"></div></div>
+  </div>
+  <div class="bar-item">
+    <div class="bar-header"><span class="name">Meta Desafiadora Abril</span><span class="value" style="color:var(--green)">R$130.000</span></div>
+    <div class="bar-track"><div class="bar-fill" style="width:100%;background:var(--green)"></div></div>
+  </div>
+</div>
+
+<!-- PRIORIDADES -->
+<div class="sec-hdr">
+  <div class="num" style="background:var(--dark)">⚡</div>
+  <div class="info"><h2>Top 3 Prioridades de Abril</h2><p>Ações de maior impacto imediato</p></div>
+</div>
+<div class="priorities">
+  <div class="priority-card" data-num="1">
+    <div class="p-num">Prioridade 01</div>
+    <div class="p-title">Cortar Ads ORKAN ML em -30%</div>
+    <div class="p-desc">Reduzir de R$9.385 para R$6.570. Manter apenas campanhas com ROAS &gt; 3x. Proteger margem agora.</div>
+    <span class="p-dead">Prazo: 03/04/2026</span>
+  </div>
+  <div class="priority-card" data-num="2">
+    <div class="p-num">Prioridade 02</div>
+    <div class="p-title">Otimizar Conversão YES SP</div>
+    <div class="p-desc">Melhorar páginas, imagens, SEO e frete dos top 3 produtos. Conversão 2,10% → 2,80% = +R$12.290.</div>
+    <span class="p-dead">Prazo: 07/04/2026</span>
+  </div>
+  <div class="priority-card" data-num="3">
+    <div class="p-num">Prioridade 03</div>
+    <div class="p-title">Escalar Tráfego ORKAN SP</div>
+    <div class="p-desc">Aumentar Shopee Ads +40% (R$774 → R$1.080). Conversão de 3,86% já está pronta para crescer.</div>
+    <span class="p-dead">Prazo: 05/04/2026</span>
+  </div>
+</div>
+
+</main>
+
+<footer>
+  <p>📊 <strong>Relatório de Performance — Março/2026</strong></p>
+  <p style="margin-top:.4rem">Grupo YES COMERCIO &amp; ORKAN &nbsp;·&nbsp; Shopee + Mercado Livre &nbsp;·&nbsp; Próximo fechamento: 01/05/2026</p>
+</footer>
+
+</body>
+</html>
